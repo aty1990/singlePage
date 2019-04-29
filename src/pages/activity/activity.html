@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+        <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+        <title>油画体验课</title>
+    </head>
+    <body>
+        <div id="app" v-cloak>
+            <div class="activity-page">
+                <img src="../../../assets/img/content.png" width="100%">
+                <div class="flex form-wrapper">
+                    <span class="grow">姓名：</span>
+                    <span class="mgl-4 grow">
+                        <input type="text" placeholder="请输入姓名" v-model="userName" maxlength="8" />
+                    </span>
+                    <span class="grow mgl-10"> 工号：</span>
+                    <span class="mgl-4 grow">
+                        <input type="text" placeholder="请输入工号" v-model="number"  maxlength="30" />
+                    </span>
+                </div>
+                <div>
+                    <a class="commit-btn flex" :class="{'opacity':!commitFlag}" @click="commitFlag && commit()">立即预约</a>
+                </div> 
+
+                <div class="page-success flex vertical text-left" v-show="alery">
+                    <div class="success-icon-wrapper flex">
+                        <img src="../../../assets/img/reset.png">
+                    </div>
+                    <div class="success-desc mgt-42">您已预约成功，请勿重复预约！</div>
+                </div>  
+
+                <div class="page-success flex vertical text-left" v-show="successFlag">
+                    <div class="success-icon-wrapper flex">
+                        <img src="../../../assets/img/success.png">
+                    </div>
+                    <div class="success-desc mgt-42">您已预约成功！</div>
+                </div>  
+
+            </div>
+        </div>
+        <script src="https://cdn.bootcss.com/vue/2.5.16/vue.min.js"></script>
+        <script>
+            new Vue({
+                el:"#app",
+                data(){
+                    return {
+                        userName:"",
+                        successFlag:false,
+                        commitFlag : false,
+                        alery : false,
+                        number : ""
+                    }
+                },
+                watch:{
+                    userName(val){
+                        if(this.userName && this.number){
+                            this.commitFlag = true;
+                        }else{
+                            this.commitFlag = false;
+                        }
+                    },
+                    number(val){
+                        if(this.userName && this.number){
+                            this.commitFlag = true;
+                        }else{
+                            this.commitFlag = false;
+                        }
+                    }
+                },
+                methods:{
+                    commit(){
+                        let _self = this;
+                        let params = {
+                            "userName": this.userName,
+                            "userId": this.number,
+                            "activityId": "1"
+                        };
+                        $.ajax({
+                            type:"POST",
+                            url:"https://adminqa.sgmlink.com/ksp/activity",
+                            dataType:"json",
+                            data : JSON.stringify(params),
+                            headers:{'Content-Type':'application/json;charset=utf8'},
+                            success:function(data){
+                                if(data.code=="200"){
+                                    _self.successFlag = true;
+                                }else if(data.code=="402"){
+                                    _self.alery = true;
+                                }else if(data.code=="403"){
+                                    layer.open({
+                                        style:'width:72%;background: #FFE9E8;border-radius: 10px;',
+                                        content: '<div><p class="title-msg">亲，来晚了！</p><p class="over">活动已过期!</p></div>'
+                                        ,btn: '知道了'
+                                    });
+                                }else{
+                                    layer.open({
+                                        content: '报名失败'
+                                        ,skin: 'msg'
+                                        ,time: 2 
+                                    });
+                                }
+                            },
+                            error:function(jqXHR){
+                                layer.open({
+                                    content: '报名失败'
+                                    ,skin: 'msg'
+                                    ,time: 2 
+                                });
+                            }
+                        });
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>

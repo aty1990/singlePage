@@ -1,0 +1,32 @@
+@import "../../../assets/css/mixin.scss";
+@import "../../../assets/css/common.scss";
+
+.wrapper{
+	font-size: px2vw(14);
+	height: px2vw(50);
+	color: #303030;
+	.items{
+		height: 100%;
+		width: 100%;
+	}
+}
+.on{
+	color:#004E90;
+	position: relative;
+	&:after{
+		content: "";
+		position: absolute;
+		width: 100%;
+		height: 2px;
+		background: #004E90;
+		bottom: 0;
+		left: 0;
+		transform: scaleX(0.3);
+	}
+}
+.airport-wrapper .td{
+    padding-left:px2vw(10);
+    padding-right:px2vw(10);
+}
+
+

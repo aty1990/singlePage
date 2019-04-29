@@ -1,0 +1,6 @@
+// px转rem
+@function px2vw($px){
+	@return ($px / 3.75) *1vw;
+}
+
+
