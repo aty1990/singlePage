@@ -1,0 +1,21 @@
+@import "../../../assets/css/mixin.scss";
+@import "../../../assets/css/common.scss";
+body,html{
+	height: 100%;
+	box-sizing: border-box;
+}
+.page-help{
+	background: #ffffff;
+	height: 100%;
+	padding: px2vw(16);
+	box-sizing: border-box;
+
+	li{
+		font-family: "PingFangSC-Regular";
+		font-size: px2vw(14);
+		color: #303030;
+		letter-spacing: 0;
+		line-height: px2vw(28);
+		text-align: justify;
+	}
+}

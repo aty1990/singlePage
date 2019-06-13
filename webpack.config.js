@@ -10,19 +10,21 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 //http://0.0.0.0:8080/hospital.html 
 //http://0.0.0.0:8080/airpart.html 
 //http://0.0.0.0:8080/activity.html 
+//http://0.0.0.0:8080/help.html 
 module.exports = {
     // 配置入口
     entry: {
         airpart: './src/pages/airpart/airpart.js',
         hospital: './src/pages/hospital/hospital.js',
-        activity: './src/pages/activity/activity.js'
+        activity: './src/pages/activity/activity.js',
+        help: './src/pages/help/help.js'
     },
     // 配置出口
     output: {
         path: __dirname + "/static/",
         filename: 'js/[name]-[hash:5].js',
-        //publicPath: '/ibuick/spage/static/'   // 生产资源地址
-        publicPath: '/'                         // 本地调试模式
+        publicPath: '/ibuick/spage/static/'   // 生产资源地址
+        //publicPath: '/'                         // 本地调试模式
     },
 
     module: {
@@ -104,6 +106,17 @@ module.exports = {
             filename: __dirname + '/static/activity.html',
             template: __dirname + "/src/pages/activity/activity.html",
             chunks: ['activity'],
+            inlineSource: '.(js|css)$',
+            minify:{
+               removeComments: true,//删除注释
+               collapseWhitespace:true//删除空格
+           }
+        }),
+        new HtmlWebpackPlugin({
+            inject: 'head',
+            filename: __dirname + '/static/help.html',
+            template: __dirname + "/src/pages/help/help.html",
+            chunks: ['help'],
             inlineSource: '.(js|css)$',
             minify:{
                removeComments: true,//删除注释
